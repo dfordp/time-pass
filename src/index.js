@@ -6,7 +6,7 @@ dotenv.config();
 import connectDB from "./mongodb/index.js";
 import authRoute from "./routers/userAuth.router.js"
 import userRoute from "./routers/user.router.js"
-import taskRoute from "./routers/task.router.js"
+import taskRoute from "./routers/task.router.js"    
 
 const app=express();
 app.use(cors());
