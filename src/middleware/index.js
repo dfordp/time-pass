@@ -28,3 +28,35 @@ export const isLoggedIn = async (req, res, next) => {
     });
   }
 };
+
+export const isOwner = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const token = req.header('Authorization'); 
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const currentUserId = decodedToken._id;
+
+
+    if (!id|| !currentUserId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User not authenticated',
+      });
+    }
+
+    if (currentUserId.toString() !== id) {
+      return res.status(403).json({
+        success: false,
+        message: 'User not authorized',
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: 'Server error',
+    });
+  }
+};
